@@ -1,5 +1,13 @@
 # Survey-App
+
+## Description
 ---
+
+-insert name here- is a full stack web application that embodies a flexible survey page that allows for users to take surveys within team environments. Users can have their survey results from various submissions compared against one another. Team owners can request raw data and visualizations of surveys across all or specified user submissions. Surveys can be manipulated by team owners without losing the possibility of either comparitive method.
+
+## Technologies Used
+---
+
 <div>
 	<img src="https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white">
 	<img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white">
@@ -14,10 +22,6 @@
 	<img src="https://img.shields.io/badge/Twilio-F22F46?style=for-the-badge&logo=Twilio logoColor=white">
 	<img src="https://img.shields.io/badge/-mocha-%238D6748?style=for-the-badge&logo=mocha&logoColor=white">
 </div>
-
-## Description
-
--insert name here- is a full stack web application that embodies a flexible survey page that allows for users to take surveys within team environments. Users can have their survey results from various submissions compared against one another. Team owners can request raw data and visualizations of surveys across all or specified user submissions. Surveys can be manipulated by team owners without losing the possibility of either comparitive method.
 
 ## Stories & State Requirements
 ---
