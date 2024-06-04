@@ -1,23 +1,26 @@
 import { Schema, model } from "mongoose";
 
-const teamSchema = new Schema({
-	created_at: {
-		type: Date,
-		default: Date.now()
+const teamSchema = new Schema(
+	{
+		name: {
+			type: String,
+			required: true
+		},
+		owner_id: {
+			type: Schema.Types.ObjectId,
+			required: true,
+			ref: "User"
+		},
+		admin_ids: [{
+			type: Schema.Types.ObjectId,
+			required: false,
+			ref: "User"
+		}]
 	},
-	name: {
-		type: String,
-		required: true
-	},
-	owner_id: {
-		type: Object,
-		required: false
-	},
-	admin_ids: [{
-		type: Object,
-		required: false
-	}]
-});
+	{
+		timestamps: true
+	}
+);
 
 const Team = model("Team", teamSchema);
 
