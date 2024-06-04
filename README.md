@@ -29,6 +29,8 @@
 ### As a User...
 1. [ ] Users must login with an email to access Teams and Surveys
 2. [ ] Users can create a Team
+3. [ ] Users login with a password that is stored via encryption
+4. [ ] Users have a first name, last name
 
 ### As a Team Member...
 1. [ ] Team members can access the team surveys available to them on the team dashboard
