@@ -1,8 +1,8 @@
 import express from "express";
 import { join } from "path";
 
-export const router = express.Router();
+const router = express.Router();
 
-router.get("^/$|/index(.html)?", (req, res) => {
+export const root = router.get("^/$|/index(.html)?", (req, res) => {
 	res.sendFile(join(__dirname, "..", "views", "index.html"))
 });

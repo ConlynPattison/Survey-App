@@ -1,7 +1,8 @@
 import express from "express";
 import { join } from "path";
 import dotenv from "dotenv";
-import { router } from "./routes/root";
+import { root } from "./routes/root";
+import { userRoutes } from "./routes/userRoutes";
 import { logger, logEvents } from "./middleware/logger";
 import { errorHandler } from "./middleware/errorHandler";
 import cookieParser from "cookie-parser";
@@ -26,7 +27,8 @@ app.use(cookieParser());
 app.use("/", express.static(join(__dirname, "public")));
 
 // Routes handling
-app.use("/", router);
+app.use("/", root);
+app.use("/users", userRoutes)
 app.all("*", (req, res) => {
 	res.status(404);
 	if (req.accepts("html")) {
