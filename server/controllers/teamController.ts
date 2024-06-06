@@ -2,7 +2,6 @@ import expressAsyncHandler from "express-async-handler";
 import { Request, Response } from "express"
 import Team from "../models/Team";
 
-
 /** 
  * @desc Get all teams
  * @route GET /teams
@@ -122,6 +121,7 @@ export const deleteTeam = expressAsyncHandler(async (req: Request, res: Response
 		return;
 	}
 
+	// todo: Add any checks that should be done before deleting a team (surveys, results, etc)
 	const team = await Team.findById(id).exec();
 
 	if (!team) {
