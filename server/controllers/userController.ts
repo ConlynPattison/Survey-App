@@ -3,6 +3,8 @@ import expressAsyncHandler from "express-async-handler";
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 
+// todo: change the documentation method to follow JSDoc more closely
+
 // @desc Get all users
 // @route GET /users
 // @access Private

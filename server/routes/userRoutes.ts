@@ -7,6 +7,6 @@ router.route("/")
 	.get(getAllUsers)
 	.post(createNewUser)
 	.patch(updateUser)
-	.delete(deleteUser)
+	.delete(deleteUser);
 
 export const userRoutes = router;

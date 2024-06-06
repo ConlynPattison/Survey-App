@@ -10,6 +10,7 @@ import cors from "cors";
 import { corsOptions } from "./config/corsOptions";
 import { connectDB } from "./config/dbConn";
 import mongoose from "mongoose";
+import { teamRoutes } from "./routes/teamRoutes";
 
 // Server config and init
 dotenv.config();
@@ -28,7 +29,8 @@ app.use("/", express.static(join(__dirname, "public")));
 
 // Routes handling
 app.use("/", root);
-app.use("/users", userRoutes)
+app.use("/users", userRoutes);
+app.use("/teams", teamRoutes);
 app.all("*", (req, res) => {
 	res.status(404);
 	if (req.accepts("html")) {
