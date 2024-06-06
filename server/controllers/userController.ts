@@ -8,7 +8,7 @@ import { Request, Response } from "express";
 // @access Private
 export const getAllUsers = expressAsyncHandler(async (req: Request, res: Response) => {
 	const users = await User.find().select("-password").lean();
-	if (!users) {
+	if (users?.length === 0) {
 		res.status(400).json({ message: "No users found" });
 		return;
 	}
@@ -22,7 +22,7 @@ export const createNewUser = expressAsyncHandler(async (req: Request, res: Respo
 	const { email, password, firstName, lastName } = req.body;
 
 	// Confirm data
-	// TODO: Convert this to entity-dto validation with Zod
+	// todo: Convert this to entity-dto validation with Zod
 	if (!email || !password || !firstName || !lastName) {
 		res.status(400).json({ message: "All fields are required" });
 		return;
@@ -60,7 +60,7 @@ export const updateUser = expressAsyncHandler(async (req: Request, res: Response
 	const { id, email, password, firstName, lastName } = req.body;
 
 	// Confirm data (password optional)
-	// TODO: Convert this to entity-dto validation with Zod
+	// todo: Convert this to entity-dto validation with Zod
 	if (!id || !email || !firstName || !lastName) {
 		res.status(400).json({ message: "All fields are required" });
 		return;
@@ -106,7 +106,7 @@ export const deleteUser = expressAsyncHandler(async (req: Request, res: Response
 		return;
 	}
 
-	// TODO: Add any checks that should be done before deleting a user (teams, roles, etc)
+	// todo: Add any checks that should be done before deleting a user (teams, roles, etc)
 	const user = await User.findById(id).exec();
 
 	if (!user) {
