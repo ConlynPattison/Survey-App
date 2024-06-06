@@ -80,6 +80,7 @@ export const updateUser = expressAsyncHandler(async (req: Request, res: Response
 
 	// Allow update for original user
 	if (duplicate && duplicate._id.toString() !== id) {
+		// todo: consider changing the wording here
 		res.status(409).json({ message: "Duplicate email recieved" });
 		return;
 	}
@@ -94,7 +95,7 @@ export const updateUser = expressAsyncHandler(async (req: Request, res: Response
 
 	const updatedUser = await user.save();
 
-	res.json({ message: `${updatedUser.email} updated` })
+	res.json({ message: `${updatedUser.email} updated` });
 });
 
 // @desc Delete a user

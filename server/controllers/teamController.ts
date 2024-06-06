@@ -46,6 +46,7 @@ export const createNewTeam = expressAsyncHandler(async (req: Request, res: Respo
 		return;
 	}
 
+	// todo: revist after zod integration
 	const hasValidAdminIds = adminIds && Array.isArray(adminIds);
 
 	const teamObject = {
@@ -70,6 +71,39 @@ export const createNewTeam = expressAsyncHandler(async (req: Request, res: Respo
  * @param {Response} res - Express response object
  */
 export const updateTeam = expressAsyncHandler(async (req: Request, res: Response) => {
+	// todo: change this to a zod parse
+	const { id, name, ownerId, adminIds } = req.body;
+
+	if (adminIds && !Array.isArray(adminIds)) {
+		res.status(400).json({ message: "Admin id(s) must be passed in an array" });
+		return;
+	}
+
+	if (!id || !name || !ownerId) {
+		res.status(400).json({ message: "All fields required" });
+		return;
+	}
+
+	const team = await Team.findById(id).exec();
+
+	if (!team) {
+		res.status(400).json({ message: "Team not found" });
+		return;
+	}
+
+	const duplicate = await Team.findOne({ name, owner_id: ownerId }).lean().exec();
+	if (duplicate && duplicate._id !== id) {
+		res.status(409).json({ message: `Another team with name ${name} already exists under user id ${ownerId}` });
+		return;
+	}
+
+	team.name = name;
+	// todo: do we want owner_id to be something that can even be changed?
+	team.owner_id = ownerId;
+	team.admin_ids = adminIds;
+
+	const updatedTeam = await team.save();
+	res.json({ message: `${updatedTeam.name} updated` });
 });
 
 /**
