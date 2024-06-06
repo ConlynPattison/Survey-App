@@ -114,4 +114,21 @@ export const updateTeam = expressAsyncHandler(async (req: Request, res: Response
  * @param {Response} res - Express response object
  */
 export const deleteTeam = expressAsyncHandler(async (req: Request, res: Response) => {
+	// todo: change this to a zod parse
+	const { id } = req.body;
+
+	if (!id) {
+		res.status(400).json({ message: "Team id field required" });
+		return;
+	}
+
+	const team = await Team.findById(id).exec();
+
+	if (!team) {
+		res.status(400).json({ message: "Team not found" });
+		return;
+	}
+
+	const result = await team.deleteOne();
+	res.json({ message: `${result.deletedCount} deleted team with id ${id}` });
 });
