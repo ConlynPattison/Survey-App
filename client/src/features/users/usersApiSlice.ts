@@ -4,11 +4,14 @@ import {
 	EntityState
 } from "@reduxjs/toolkit";
 import { apiSlice } from "../../app/api/apiSlice"
-import { store } from "../../app/store";
+import { RootState } from "../../app/store";
 
 // Define the User type
-interface User {
+export interface User {
 	id: string;
+	email: string;
+	first_name: string;
+	last_name: string;
 	_id: string;  // Comes from the backend
 	// Add other user properties as needed
 }
@@ -56,8 +59,6 @@ const selectUsersData = createSelector(
 	selectUsersResult,
 	usersResult => usersResult.data // normalized state object with ids & entities
 )
-
-type RootState = ReturnType<typeof store.getState>;
 
 // getSelectors creates these selectors and we rename them with aliases using destructuring
 export const {
