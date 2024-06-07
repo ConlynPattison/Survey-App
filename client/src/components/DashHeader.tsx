@@ -4,7 +4,7 @@ const DashHeader = () => {
 	return (
 		<header>
 			<div>
-				<Link to="/dash/teams">
+				<Link to="/dash">
 					<h1>Survey App</h1>
 				</Link>
 				<nav>
