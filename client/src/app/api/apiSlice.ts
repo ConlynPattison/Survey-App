@@ -6,7 +6,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
  * @todo: change the baseUrl before deployment
  */
 export const apiSlice = createApi({
-	baseQuery: fetchBaseQuery({ baseUrl: "http:localhost:8081" }),
+	baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8081" }),
 	tagTypes: ["Team", "User"],
 	endpoints: builder => ({})
 });
