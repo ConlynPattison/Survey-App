@@ -6,6 +6,8 @@ import DashLayout from "./components/DashLayout";
 import Welcome from "./features/auth/Welcome";
 import UsersList from "./features/users/UsersList";
 import TeamsList from "./features/teams/TeamsList";
+import EditUser from "./features/users/EditUser";
+import NewUserForm from "./features/users/NewUserForm";
 
 function App() {
 	return (
@@ -23,6 +25,8 @@ function App() {
 
 					<Route path="users">
 						<Route index element={<UsersList />} />
+						<Route path=":id" element={<EditUser />} />
+						<Route path="new" element={<NewUserForm />} />
 					</Route>
 				</Route>
 			</Route>

@@ -1,0 +1,126 @@
+import { useNavigate } from "react-router-dom";
+import { useAddNewUserMutation } from "./usersApiSlice";
+import { ChangeEvent, ChangeEventHandler, FormEvent, useEffect, useState } from "react";
+import { isSerializedError } from "../../app/api/apiUtil";
+
+const EMAIL_REGEX = /^[A-z]{3, 20}/;
+const PASSWORD_REGEX = /^[A-z0-9!@#$%]{4, 12}/;
+
+const NewUserForm = () => {
+	const [addNewUser, {
+		isLoading,
+		isSuccess,
+		isError,
+		error
+	}] = useAddNewUserMutation();
+
+	const navigate = useNavigate();
+
+	const [email, setEmail] = useState("");
+	const [validEmail, setValidEmail] = useState(false);
+	const [password, setPassword] = useState("");
+	const [validPassword, setValidPassword] = useState(false);
+	const [firstName, setFirstName] = useState("");
+	const [lastName, setLastName] = useState("");
+
+	useEffect(() => {
+		setValidEmail(EMAIL_REGEX.test(email));
+	}, [email]);
+
+	useEffect(() => {
+		setValidEmail(PASSWORD_REGEX.test(password));
+	}, [password]);
+
+	useEffect(() => {
+		if (isSuccess) {
+			setEmail("");
+			setPassword("");
+			setFirstName("");
+			setLastName("");
+		}
+	}, [isSuccess, navigate]);
+
+	const onEmailChange = (e) => setEmail(e.target?.value);
+	const onPasswordChange = (e) => setPassword(e.target?.value);
+	const onFirstNameChange = (e) => setFirstName(e.target?.value);
+	const onLastNameChange = (e) => setLastName(e.target?.value);
+
+	const canSave = validEmail && validPassword && !isLoading;
+
+	const onSaveUserClicked = async (e: FormEvent) => {
+		e.preventDefault();
+		if (canSave) {
+			await addNewUser({ email, password, firstName, lastName });
+		}
+	}
+
+	const getErrorContent = (): null | string => {
+		if (!isError) return null;
+
+		return isSerializedError(error) // this is fairly unforunate looking
+			? String(error.message || "")
+			: String(error.data || "");
+	}
+
+	return (
+		<>
+			<p>{getErrorContent()}</p>
+
+			<form onSubmit={onSaveUserClicked}>
+				<div >
+					<h2>New User</h2>
+					<div>
+						<button
+							title="Save"
+							disabled={!canSave}
+						>
+						</button>
+					</div>
+				</div>
+				<label htmlFor="email">
+					Email: <span>[3-20 letters]</span></label>
+				<input
+					id="email"
+					name="email"
+					type="email"
+					autoComplete="off"
+					value={email}
+					onChange={onEmailChange}
+				/>
+
+				<label htmlFor="password">
+					Password: <span>[4-12 chars incl. !@#$%]</span></label>
+				<input
+					id="password"
+					name="password"
+					type="password"
+					value={password}
+					onChange={onPasswordChange}
+				/>
+
+				<label htmlFor="first-name">
+					First Name: </label>
+				<input
+					id="first-name"
+					name="first-name"
+					type="text"
+					value={firstName}
+					onChange={onFirstNameChange}
+				/>
+
+				<label htmlFor="last-name">
+					Last Name: </label>
+				<input
+					id="last-name"
+					name="last-name"
+					type="text"
+					value={lastName}
+					onChange={onLastNameChange}
+				/>
+
+			</form>
+		</>
+	);
+}
+
+export default NewUserForm;
