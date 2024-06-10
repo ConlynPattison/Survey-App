@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useAddNewUserMutation } from "./usersApiSlice";
-import { FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { getQueryErrorMessage } from "../../app/api/apiUtil";
 
 const EMAIL_REGEX = /^[A-z]{3, 20}/;
@@ -40,10 +40,10 @@ const NewUserForm = () => {
 		}
 	}, [isSuccess, navigate]);
 
-	const onEmailChange = (e) => setEmail(e.target?.value);
-	const onPasswordChange = (e) => setPassword(e.target?.value);
-	const onFirstNameChange = (e) => setFirstName(e.target?.value);
-	const onLastNameChange = (e) => setLastName(e.target?.value);
+	const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target?.value);
+	const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target?.value);
+	const onFirstNameChange = (e: ChangeEvent<HTMLInputElement>) => setFirstName(e.target?.value);
+	const onLastNameChange = (e: ChangeEvent<HTMLInputElement>) => setLastName(e.target?.value);
 
 	const canSave = validEmail && validPassword && !isLoading;
 
