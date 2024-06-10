@@ -8,6 +8,7 @@ import UsersList from "./features/users/UsersList";
 import TeamsList from "./features/teams/TeamsList";
 import EditUser from "./features/users/EditUser";
 import NewUserForm from "./features/users/NewUserForm";
+import Prefetch from "./features/auth/Prefetch";
 
 function App() {
 	return (
@@ -15,18 +16,20 @@ function App() {
 			<Route path="/" element={<Layout />}>
 				<Route index element={<Public />} />
 				<Route path="login" element={<Login />} />
-				<Route path="dash" element={<DashLayout />}>
-					{/* todo: protected routes will go here */}
-					<Route index element={<Welcome />} />
+				<Route element={<Prefetch />}> {/* Subsribe to data once while within dash/protected routes */}
+					<Route path="dash" element={<DashLayout />}>
+						{/* todo: protected routes will go here */}
+						<Route index element={<Welcome />} />
 
-					<Route path="teams">
-						<Route index element={<TeamsList />} />
-					</Route>
+						<Route path="teams">
+							<Route index element={<TeamsList />} />
+						</Route>
 
-					<Route path="users">
-						<Route index element={<UsersList />} />
-						<Route path=":id" element={<EditUser />} />
-						<Route path="new" element={<NewUserForm />} />
+						<Route path="users">
+							<Route index element={<UsersList />} />
+							<Route path=":id" element={<EditUser />} />
+							<Route path="new" element={<NewUserForm />} />
+						</Route>
 					</Route>
 				</Route>
 			</Route>

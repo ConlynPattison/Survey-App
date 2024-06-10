@@ -26,7 +26,6 @@ export const teamsApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getTeams: builder.query<EntityState<Team, string>, void>({
 			query: () => '/teams',
-			keepUnusedDataFor: 5,
 			transformResponse: (responseData: Team[]) => {
 				const loadedTeams = responseData.map((team) => {
 					team.id = team._id;

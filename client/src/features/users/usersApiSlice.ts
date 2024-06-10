@@ -27,7 +27,6 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getUsers: builder.query<EntityState<User, string>, void>({
 			query: () => '/users',
-			keepUnusedDataFor: 5,
 			transformResponse: (responseData: User[]) => {
 				const loadedUsers = responseData.map((user) => {
 					user.id = user._id;
