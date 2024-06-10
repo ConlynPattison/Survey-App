@@ -1,4 +1,4 @@
-import { isSerializedError } from "../../app/api/apiUtil";
+import { getQueryErrorMessage, isSerializedError } from "../../app/api/apiUtil";
 import UserItem from "./UserItem";
 import { useGetUsersQuery } from "./usersApiSlice";
 
@@ -11,37 +11,12 @@ const UsersList = () => {
 		error
 	} = useGetUsersQuery();
 
-	const errorMessage = () => {
-		if (!isError) return;
-		if (error === undefined) return;
-
-		if (isSerializedError(error)) {
-			return error?.message;
-		}
-
-		switch (error.status) {
-			case 400:
-				// Handle specific error status codes
-				return error.data?.toString(); // Assuming error.data is a string or convertible to a string
-			case 'FETCH_ERROR':
-				return error.error;
-			case 'PARSING_ERROR':
-				return `Parsing error: ${error.error}`;
-			case 'TIMEOUT_ERROR':
-				return 'Request timed out';
-			case 'CUSTOM_ERROR':
-				return error.error;
-			default:
-				return 'An unknown error occurred';
-		}
-	}
-
 	let content
 
 	if (isLoading) content = <p>Loading...</p>;
 
 	if (isError) {
-		content = <p className="errmsg">{errorMessage()}</p>;
+		content = <p className="errmsg">{getQueryErrorMessage(isError, error)}</p>;
 	}
 
 	if (isSuccess) {

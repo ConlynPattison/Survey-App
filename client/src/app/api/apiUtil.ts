@@ -11,7 +11,7 @@ export const isSerializedError = (error: queryError): error is SerializedError =
 	return error && typeof error === "object" && "message" in error;
 }
 
-export const getErrorMessage = (isError: boolean, error: (queryError | undefined)) => {
+export const getQueryErrorMessage = (isError: boolean, error: (queryError | undefined)) => {
 	if (!isError) return;
 	if (error === undefined) return;
 

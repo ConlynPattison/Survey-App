@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useAddNewUserMutation } from "./usersApiSlice";
-import { ChangeEvent, ChangeEventHandler, FormEvent, useEffect, useState } from "react";
-import { isSerializedError } from "../../app/api/apiUtil";
+import { FormEvent, useEffect, useState } from "react";
+import { getQueryErrorMessage } from "../../app/api/apiUtil";
 
 const EMAIL_REGEX = /^[A-z]{3, 20}/;
 const PASSWORD_REGEX = /^[A-z0-9!@#$%]{4, 12}/;
@@ -54,17 +54,9 @@ const NewUserForm = () => {
 		}
 	}
 
-	const getErrorContent = (): null | string => {
-		if (!isError) return null;
-
-		return isSerializedError(error) // this is fairly unforunate looking
-			? String(error.message || "")
-			: String(error.data || "");
-	}
-
 	return (
 		<>
-			<p>{getErrorContent()}</p>
+			<p>{getQueryErrorMessage(isError, error)}</p>
 
 			<form onSubmit={onSaveUserClicked}>
 				<div >
