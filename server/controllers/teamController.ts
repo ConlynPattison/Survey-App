@@ -11,10 +11,6 @@ import Team from "../models/Team";
  */
 export const getAllTeams = expressAsyncHandler(async (req: Request, res: Response) => {
 	const teams = await Team.find().lean().exec();
-	if (teams?.length === 0) {
-		res.status(400).json({ message: "No teams found" });
-		return;
-	}
 	res.json(teams);
 });
 
