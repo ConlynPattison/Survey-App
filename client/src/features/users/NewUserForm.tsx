@@ -3,8 +3,8 @@ import { useAddNewUserMutation } from "./usersApiSlice";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { getQueryErrorMessage } from "../../app/api/apiUtil";
 
-const EMAIL_REGEX = /^[A-z]{3, 20}/;
-const PASSWORD_REGEX = /^[A-z0-9!@#$%]{4, 12}/;
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const PASSWORD_REGEX = /^[A-Za-z0-9!@#$%]{4,12}$/;
 
 const NewUserForm = () => {
 	const [addNewUser, {
@@ -28,7 +28,7 @@ const NewUserForm = () => {
 	}, [email]);
 
 	useEffect(() => {
-		setValidEmail(PASSWORD_REGEX.test(password));
+		setValidPassword(PASSWORD_REGEX.test(password));
 	}, [password]);
 
 	useEffect(() => {
@@ -37,8 +37,9 @@ const NewUserForm = () => {
 			setPassword("");
 			setFirstName("");
 			setLastName("");
+			navigate("/dash/users")
 		}
-	}, [isSuccess, navigate]);
+	}, [isSuccess]);
 
 	const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target?.value);
 	const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target?.value);
@@ -65,7 +66,8 @@ const NewUserForm = () => {
 						<button
 							title="Save"
 							disabled={!canSave}
-						>
+							type="submit"
+						> Save
 						</button>
 					</div>
 				</div>
