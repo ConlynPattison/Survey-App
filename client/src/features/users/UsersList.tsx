@@ -15,7 +15,7 @@ const UsersList = () => {
 		refetchOnMountOrArgChange: true
 	});
 
-	let content: JSX.Element;
+	let content = <></>;
 
 	if (isLoading) content = <p>Loading...</p>;
 
