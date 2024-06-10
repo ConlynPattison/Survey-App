@@ -16,7 +16,7 @@ const UsersList = () => {
 		if (error === undefined) return;
 
 		if (isSerializedError(error)) {
-			return error?.message
+			return error?.message;
 		}
 
 		switch (error.status) {
@@ -38,19 +38,19 @@ const UsersList = () => {
 
 	let content
 
-	if (isLoading) content = <p>Loading...</p>
+	if (isLoading) content = <p>Loading...</p>;
 
 	if (isError) {
-		content = <p className="errmsg">{errorMessage()}</p>
+		content = <p className="errmsg">{errorMessage()}</p>;
 	}
 
 	if (isSuccess) {
 
-		const { ids } = users
+		const { ids } = users;
 
 		const tableContent = ids?.length
 			? ids.map(userId => <UserItem key={userId} userId={userId} />)
-			: null
+			: null;
 
 		content = (
 			<table>
@@ -68,7 +68,7 @@ const UsersList = () => {
 		)
 	}
 
-	return content
+	return content;
 }
 
 export default UsersList;

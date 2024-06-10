@@ -4,13 +4,15 @@ import {
 	EntityState
 } from "@reduxjs/toolkit";
 import { apiSlice } from "../../app/api/apiSlice"
-import { RootState, store } from "../../app/store";
+import { RootState } from "../../app/store";
 
 // Define the Team type
-interface Team {
+export interface Team {
 	id: string;
 	_id: string;  // Comes from the backend
-	// Add other team properties as needed
+	name: string;
+	owner_id: string;
+	admin_ids: [string];
 }
 
 // Create an entity adapter for the Team type
