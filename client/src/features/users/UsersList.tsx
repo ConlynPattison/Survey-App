@@ -1,4 +1,4 @@
-import { getQueryErrorMessage, isSerializedError } from "../../app/api/apiUtil";
+import { getQueryErrorMessage } from "../../app/api/apiUtil";
 import UserItem from "./UserItem";
 import { useGetUsersQuery } from "./usersApiSlice";
 
@@ -9,14 +9,18 @@ const UsersList = () => {
 		isSuccess,
 		isError,
 		error
-	} = useGetUsersQuery();
+	} = useGetUsersQuery(undefined, {
+		pollingInterval: 60000, // requery every minute
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true
+	});
 
-	let content
+	let content: JSX.Element;
 
 	if (isLoading) content = <p>Loading...</p>;
 
 	if (isError) {
-		content = <p className="errmsg">{getQueryErrorMessage(isError, error)}</p>;
+		content = <p>{getQueryErrorMessage(isError, error)}</p>;
 	}
 
 	if (isSuccess) {

@@ -1,4 +1,4 @@
-import { getQueryErrorMessage, isSerializedError } from "../../app/api/apiUtil";
+import { getQueryErrorMessage } from "../../app/api/apiUtil";
 import TeamItem from "./TeamItem";
 import { useGetTeamsQuery } from "./teamsApiSlice";
 
@@ -9,9 +9,13 @@ const TeamsList = () => {
 		isSuccess,
 		isError,
 		error
-	} = useGetTeamsQuery();
+	} = useGetTeamsQuery(undefined, {
+		pollingInterval: 60000, // requery every minute
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true
+	});
 
-	let content;
+	let content: JSX.Element;
 
 	if (isLoading) content = <p>Loading...</p>;
 
