@@ -45,10 +45,49 @@ export const teamsApiSlice = apiSlice.injectEndpoints({
 				}
 			},
 		}),
+		addNewTeam: builder.mutation({
+			query: initialTeamData => ({
+				url: "/teams",
+				method: "POST",
+				body: {
+					...initialTeamData
+				}
+			}),
+			invalidatesTags: [{
+				type: "Team", id: "LIST"
+			}]
+		}),
+		updateTeam: builder.mutation({
+			query: initialTeamData => ({
+				url: "/teams",
+				method: "PATCH",
+				body: {
+					...initialTeamData
+				}
+			}),
+			invalidatesTags: (result, error, arg) => [{
+				type: "Team", id: arg.id
+			}]
+		}),
+		deleteTeam: builder.mutation({
+			query: ({ id }) => ({
+				url: "/teams",
+				method: "DELETE",
+				body: { id }
+			}),
+			invalidatesTags: (result, error, arg) => [{
+				type: "Team", id: arg.id
+			}]
+		}),
 	}),
 });
 
-export const { useGetTeamsQuery } = teamsApiSlice;
+export const {
+	useGetTeamsQuery,
+	useAddNewTeamMutation,
+	useDeleteTeamMutation,
+	useUpdateTeamMutation
+} = teamsApiSlice;
 
 // returns the query result object
 export const selectTeamsResult = teamsApiSlice.endpoints.getTeams.select();
