@@ -29,6 +29,7 @@ app.use("/", express.static(join(__dirname, "public")));
 
 // Routes handling
 app.use("/", root);
+app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/teams", teamRoutes);
 app.all("*", (req, res) => {
