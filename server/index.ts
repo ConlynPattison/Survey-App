@@ -11,6 +11,7 @@ import { corsOptions } from "./config/corsOptions";
 import { connectDB } from "./config/dbConn";
 import mongoose from "mongoose";
 import { teamRoutes } from "./routes/teamRoutes";
+import { authRoutes } from "./routes/authRoutes";
 
 // Server config and init
 dotenv.config();

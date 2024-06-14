@@ -1,15 +1,16 @@
 import { Router } from "express";
-import { } from "../controllers/authController";
+import { loginLimiter } from "../middleware/loginLimiter";
+import { login, logout, refresh } from "../controllers/authController";
 
 const router = Router();
 
 router.route("/")
-	.post();
+	.post(loginLimiter, login);
 
 router.route("/refresh")
-	.get();
+	.get(refresh);
 
 router.route("/logout")
-	.post();
+	.post(logout);
 
 export const authRoutes = router;
