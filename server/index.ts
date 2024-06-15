@@ -19,7 +19,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Database initializations
-connectDB()
+connectDB();
 
 // Middleware initializations
 app.use(logger);
