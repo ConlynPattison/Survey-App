@@ -87,7 +87,7 @@ export const refresh = expressAsyncHandler((req: Request, res: Response) => {
 				return;
 			}
 
-			// todo: zod, should check that there exists the proper records for a user's auth
+			// todo: zod, should check that there exists the proper records for a user's auth (occurs again in verifyJWT)
 			if (!decoded || typeof decoded === "string") {
 				res.status(401).json({ message: "Unauthorized" });
 				return;
