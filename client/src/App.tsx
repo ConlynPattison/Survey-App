@@ -12,7 +12,7 @@ import Prefetch from "./features/auth/Prefetch";
 import PersistLogin from "./features/auth/PersistLogin";
 import RequireAuth from "./features/auth/RequireAuth";
 
-function App() {
+const App = () => {
 	return (
 		<Routes>
 			<Route path="/" element={<Layout />}>
@@ -45,4 +45,4 @@ function App() {
 	);
 }
 
-export default App
+export default App;

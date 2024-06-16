@@ -34,7 +34,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 				});
 				return usersAdapter.setAll(initialState, loadedUsers);
 			},
-			providesTags: (result, error, arg) => {
+			providesTags: (result, _error, _arg) => {
 				if (result?.ids) {
 					return [
 						{ type: 'User', id: 'LIST' } as const,
@@ -65,7 +65,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 					...initialUserData
 				}
 			}),
-			invalidatesTags: (result, error, arg) => [{
+			invalidatesTags: (_result, _error, arg) => [{
 				type: "User", id: arg.id
 			}]
 		}),
@@ -75,7 +75,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 				method: "DELETE",
 				body: { id }
 			}),
-			invalidatesTags: (result, error, arg) => [{
+			invalidatesTags: (_result, _error, arg) => [{
 				type: "User", id: arg.id
 			}]
 		})

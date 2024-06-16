@@ -33,7 +33,7 @@ export const teamsApiSlice = apiSlice.injectEndpoints({
 				});
 				return teamsAdapter.setAll(initialState, loadedTeams);
 			},
-			providesTags: (result, error, arg) => {
+			providesTags: (result, _error, _arg) => {
 				if (result?.ids) {
 					return [
 						{ type: 'Team', id: 'LIST' } as const,
@@ -64,7 +64,7 @@ export const teamsApiSlice = apiSlice.injectEndpoints({
 					...initialTeamData
 				}
 			}),
-			invalidatesTags: (result, error, arg) => [{
+			invalidatesTags: (_result, _error, arg) => [{
 				type: "Team", id: arg.id
 			}]
 		}),
@@ -74,7 +74,7 @@ export const teamsApiSlice = apiSlice.injectEndpoints({
 				method: "DELETE",
 				body: { id }
 			}),
-			invalidatesTags: (result, error, arg) => [{
+			invalidatesTags: (_result, _error, arg) => [{
 				type: "Team", id: arg.id
 			}]
 		}),
