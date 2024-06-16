@@ -38,13 +38,17 @@ export const login = expressAsyncHandler(async (req: Request, res: Response) => 
 		{
 			"UserInfo": {
 				"email": foundUser.email,
+				"firstName": foundUser.first_name
 			}
 		}, process.env.ACCESS_TOKEN_SECRET!,
 		{ expiresIn: "1d" } // todo: change (reduce) for deployment
 	);
 
 	const refreshToken = jwt.sign(
-		{ "email": foundUser.email },
+		{
+			"email": foundUser.email,
+			"firstName": foundUser.first_name
+		},
 		process.env.REFRESH_TOKEN_SECRET!,
 		{ expiresIn: "1d" }
 	);
@@ -103,7 +107,8 @@ export const refresh = expressAsyncHandler((req: Request, res: Response) => {
 			const accessToken = jwt.sign(
 				{
 					"UserInfo": {
-						"email": foundUser.email
+						"email": foundUser.email,
+						"firstName": foundUser.first_name
 					}
 				},
 				process.env.ACCESS_TOKEN_SECRET!,

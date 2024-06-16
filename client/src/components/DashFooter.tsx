@@ -1,8 +1,10 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 const DashFooter = () => {
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
+	const { email, firstName } = useAuth();
 
 	const onHomeClicked = () => navigate("/dash");
 
@@ -13,8 +15,8 @@ const DashFooter = () => {
 	return (
 		<footer>
 			{pathname !== "/dash" && homeButton}
-			<p>Current User: </p>
-			<p>Email: </p>
+			<p>Current User: {firstName}</p>
+			<p>Email: {email} </p>
 		</footer>
 	);
 }
