@@ -62,40 +62,58 @@ const Login = () => {
 			<header>
 				<h1>Login</h1>
 			</header>
-			<main>
+			<main className="ml-auto mr-auto w-fit">
 				<p ref={errRef} hidden={!errMsg} aria-live="assertive">{errMsg}</p>
 
-				<form className="form" onSubmit={handleSubmit}>
-					<label htmlFor="email">Email:</label>
-					<input
-						type="text"
-						id="email"
-						ref={emailRef}
-						value={email}
-						onChange={handleEmailInput}
-						autoComplete="off"
-						required
-					/>
-
-					<label htmlFor="password">Password:</label>
-					<input
-						type="password"
-						id="password"
-						onChange={handlePasswordInput}
-						value={password}
-						required
-					/>
-					<button>Sign In</button>
-
-					<label>
+				<form className="card w-96" onSubmit={handleSubmit}>
+					<label className="form-control w-full" htmlFor="email">
+						<div className="label">
+							<span className="label-text">Email:</span>
+						</div>
 						<input
-							type="checkbox"
-							id="persist"
-							onChange={handleToggle}
-							checked={persist}
+							className="input input-bordered w-full"
+							type="text"
+							id="email"
+							ref={emailRef}
+							value={email}
+							onChange={handleEmailInput}
+							autoComplete="off"
+							required
 						/>
-						Trust This Device
 					</label>
+
+					<label
+						className="form-control w-full mt-5"
+						htmlFor="password"
+					>
+						<div className="label">
+							<span className="label-text">Password:</span>
+						</div>
+						<input
+							className="input input-bordered w-full"
+							type="password"
+							id="password"
+							onChange={handlePasswordInput}
+							value={password}
+							required
+						/>
+					</label>
+
+					<button className="btn btn-primary mt-10">Sign In</button>
+
+					<div className="form-control">
+						<label className="label cursor-pointer">
+							<span className="label-text">Trust This Device</span>
+							<input
+								className="checkbox"
+								type="checkbox"
+								id="persist"
+								onChange={handleToggle}
+								checked={persist}
+							/>
+						</label>
+					</div>
+
 				</form>
 			</main>
 			<footer>
