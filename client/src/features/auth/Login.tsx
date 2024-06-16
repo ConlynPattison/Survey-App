@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "./authApiSlice";
 import { setCredentials } from "./authSlice";
+import usePersist from "../../hooks/usePersist";
 
 const Login = () => {
 	const emailRef = useRef<HTMLInputElement>(null);
@@ -11,6 +12,7 @@ const Login = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [errMsg, setErrMsg] = useState("");
+	const [persist, setPersist] = usePersist();
 
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -49,6 +51,7 @@ const Login = () => {
 
 	const handleEmailInput = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
 	const handlePasswordInput = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
+	const handleToggle = () => setPersist((prev: any) => !prev); // todo:
 
 	if (isLoading) return (
 		<p>Loading...</p>
@@ -83,6 +86,16 @@ const Login = () => {
 						required
 					/>
 					<button>Sign In</button>
+
+					<label>
+						<input
+							type="checkbox"
+							id="persist"
+							onChange={handleToggle}
+							checked={persist}
+						/>
+						Trust This Device
+					</label>
 				</form>
 			</main>
 			<footer>
