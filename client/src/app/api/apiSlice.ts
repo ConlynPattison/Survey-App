@@ -32,7 +32,7 @@ const baseQueryWithReAuth = async (args: string | FetchArgs, api: BaseQueryApi, 
 			result = await baseQuery(args, api, extraOptions);
 		} else {
 			if (refreshResult?.error?.status === 403) {
-				refreshResult.error.data = "Your login has expired. ";
+				refreshResult.error.data = "Your login has expired.";
 			}
 			return refreshResult;
 		}

@@ -18,7 +18,6 @@ const useAuth = () => {
 			const { email, firstName } = decoded;
 			return { email, firstName }
 		}
-
 	}
 
 	return {

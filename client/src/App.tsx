@@ -10,31 +10,36 @@ import EditUser from "./features/users/EditUser";
 import NewUserForm from "./features/users/NewUserForm";
 import Prefetch from "./features/auth/Prefetch";
 import PersistLogin from "./features/auth/PersistLogin";
+import RequireAuth from "./features/auth/RequireAuth";
 
 function App() {
 	return (
 		<Routes>
 			<Route path="/" element={<Layout />}>
+				{/* public routes */}
 				<Route index element={<Public />} />
 				<Route path="login" element={<Login />} />
+
+				{/* protected routes */}
 				<Route element={<PersistLogin />}>
-					<Route element={<Prefetch />}> {/* Subsribe to data once while within dash/protected routes */}
-						<Route path="dash" element={<DashLayout />}>
-							{/* todo: protected routes will go here */}
-							<Route index element={<Welcome />} />
-
-							<Route path="teams">
-								<Route index element={<TeamsList />} />
-							</Route>
-
-							<Route path="users">
-								<Route index element={<UsersList />} />
-								<Route path=":id" element={<EditUser />} />
-								<Route path="new" element={<NewUserForm />} />
+					<Route element={<RequireAuth allowedUsers={["Conlyn", "Carl"]} />}> {/* where props would be included to restrict */}
+						<Route element={<Prefetch />}> {/* Subsribe to data once while within dash/protected routes */}
+							<Route path="dash" element={<DashLayout />}>
+								<Route index element={<Welcome />} />
+								<Route path="teams">
+									<Route index element={<TeamsList />} />
+								</Route>
+								<Route path="users">
+									<Route index element={<UsersList />} />
+									<Route path=":id" element={<EditUser />} />
+									<Route path="new" element={<NewUserForm />} />
+								</Route>
 							</Route>
 						</Route>
 					</Route>
 				</Route>
+				{/* end of protected routes */}
+
 			</Route>
 		</Routes>
 	);

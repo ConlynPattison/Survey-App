@@ -55,8 +55,8 @@ const PersistLogin = () => {
 	if (isError) { // persist: yes, token: no => bad request for token
 		console.log('error');
 		return (
-			<p className='errmsg'>
-				{getQueryErrorMessage(isError, error)}
+			<p>
+				{`${getQueryErrorMessage(isError, error)} - `}
 				<Link to="/login">Please login again</Link>.
 			</p>
 		);

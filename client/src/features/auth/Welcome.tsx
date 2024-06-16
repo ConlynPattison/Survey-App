@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const Welcome = () => {
 	const date = new Date();
@@ -8,11 +9,12 @@ const Welcome = () => {
 			timeStyle: "long"
 		}
 	).format(date);
+	const { email, firstName } = useAuth();
 
 	return (
 		<section>
 			<p>{today}</p>
-			<h1>Welcome!</h1>
+			<h1>Welcome {firstName}!</h1>
 
 			<p><Link to="/dash/teams">View Teams</Link></p>
 			<p><Link to="/dash/teams/new">Add New Team</Link></p>
