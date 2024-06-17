@@ -1,4 +1,3 @@
-import expressAsyncHandler from "express-async-handler";
 import { Request, Response } from "express"
 import Team from "../models/Team";
 
@@ -9,10 +8,10 @@ import Team from "../models/Team";
  * @param {Request} req - Express request object
  * @param {Response} res - Express response object
  */
-export const getAllTeams = expressAsyncHandler(async (req: Request, res: Response) => {
+export const getAllTeams = async (req: Request, res: Response) => {
 	const teams = await Team.find().lean().exec();
 	res.json(teams);
-});
+}
 
 /**
  * @desc Create a new team
@@ -21,7 +20,7 @@ export const getAllTeams = expressAsyncHandler(async (req: Request, res: Respons
  * @param {Request} req - Express request object
  * @param {Response} res - Express response object
  */
-export const createNewTeam = expressAsyncHandler(async (req: Request, res: Response) => {
+export const createNewTeam = async (req: Request, res: Response) => {
 	// todo: change this to a zod parse
 	const { name, ownerId, adminIds } = req.body;
 
@@ -56,7 +55,7 @@ export const createNewTeam = expressAsyncHandler(async (req: Request, res: Respo
 	} else {
 		res.status(400).json({ message: "Invalid team data recieved, team not created" });
 	}
-});
+}
 
 /**
  * @desc Update a team
@@ -65,7 +64,7 @@ export const createNewTeam = expressAsyncHandler(async (req: Request, res: Respo
  * @param {Request} req - Express request object
  * @param {Response} res - Express response object
  */
-export const updateTeam = expressAsyncHandler(async (req: Request, res: Response) => {
+export const updateTeam = async (req: Request, res: Response) => {
 	// todo: change this to a zod parse
 	const { id, name, ownerId, adminIds } = req.body;
 
@@ -99,7 +98,7 @@ export const updateTeam = expressAsyncHandler(async (req: Request, res: Response
 
 	const updatedTeam = await team.save();
 	res.json({ message: `${updatedTeam.name} updated` });
-});
+}
 
 /**
  * @desc Remove a team
@@ -108,7 +107,7 @@ export const updateTeam = expressAsyncHandler(async (req: Request, res: Response
  * @param {Request} req - Express request object
  * @param {Response} res - Express response object
  */
-export const deleteTeam = expressAsyncHandler(async (req: Request, res: Response) => {
+export const deleteTeam = async (req: Request, res: Response) => {
 	// todo: change this to a zod parse
 	const { id } = req.body;
 
@@ -127,4 +126,4 @@ export const deleteTeam = expressAsyncHandler(async (req: Request, res: Response
 
 	const result = await team.deleteOne();
 	res.json({ message: `${result.deletedCount} deleted team with id ${id}` });
-});
+}

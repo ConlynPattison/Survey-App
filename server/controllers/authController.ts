@@ -1,4 +1,3 @@
-import expressAsyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -11,7 +10,7 @@ import User from "../models/User";
  * @param {Request} req - Express request object
  * @param {Response} res - Express response object
  */
-export const login = expressAsyncHandler(async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response) => {
 	// todo: zod
 	const { email, password } = req.body;
 
@@ -62,7 +61,7 @@ export const login = expressAsyncHandler(async (req: Request, res: Response) => 
 
 	res.json({ accessToken });
 
-});
+}
 
 /** 
  * @desc Refresh
@@ -71,7 +70,7 @@ export const login = expressAsyncHandler(async (req: Request, res: Response) => 
  * @param {Request} req - Express request object
  * @param {Response} res - Express response object
  */
-export const refresh = expressAsyncHandler((req: Request, res: Response) => {
+export const refresh = (req: Request, res: Response) => {
 	const cookies = req.cookies;
 
 	if (!cookies?.jwt) {
@@ -117,7 +116,7 @@ export const refresh = expressAsyncHandler((req: Request, res: Response) => {
 			res.json({ accessToken });
 		}
 	);
-});
+}
 
 /** 
  * @desc Logout
@@ -126,7 +125,7 @@ export const refresh = expressAsyncHandler((req: Request, res: Response) => {
  * @param {Request} req - Express request object
  * @param {Response} res - Express response object
  */
-export const logout = expressAsyncHandler((req: Request, res: Response) => {
+export const logout = (req: Request, res: Response) => {
 	const cookies = req.cookies;
 
 	if (!cookies?.jwt) { // No jwt content found on cookie
@@ -136,4 +135,4 @@ export const logout = expressAsyncHandler((req: Request, res: Response) => {
 
 	res.clearCookie("jwt", { httpOnly: true, sameSite: "none", secure: true });
 	res.json({ message: "Cookie cleared" });
-});
+}

@@ -14,6 +14,7 @@ import { teamRoutes } from "./routes/teamRoutes";
 import { authRoutes } from "./routes/authRoutes";
 
 // Server config and init
+require("express-async-errors");
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8080;

@@ -1,5 +1,4 @@
 import User from "../models/User";
-import expressAsyncHandler from "express-async-handler";
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 
@@ -8,19 +7,19 @@ import { Request, Response } from "express";
 // @desc Get all users
 // @route GET /users
 // @access Private
-export const getAllUsers = expressAsyncHandler(async (req: Request, res: Response) => {
+export const getAllUsers = async (req: Request, res: Response) => {
 	const users = await User.find().select("-password").lean();
 	if (users?.length === 0) {
 		res.status(400).json({ message: "No users found" });
 		return;
 	}
 	res.json(users);
-});
+}
 
 // @desc Create new user
 // @route POST /users
 // @access Private
-export const createNewUser = expressAsyncHandler(async (req: Request, res: Response) => {
+export const createNewUser = async (req: Request, res: Response) => {
 	const { email, password, firstName, lastName } = req.body;
 
 	// Confirm data
@@ -55,12 +54,12 @@ export const createNewUser = expressAsyncHandler(async (req: Request, res: Respo
 	} else {
 		res.status(400).json({ message: "Invalid user data recieved, user not created" });
 	}
-});
+}
 
 // @desc Update a user
 // @route PATCH /users
 // @access Private
-export const updateUser = expressAsyncHandler(async (req: Request, res: Response) => {
+export const updateUser = async (req: Request, res: Response) => {
 	const { id, email, password, firstName, lastName } = req.body;
 
 	// Confirm data (password optional)
@@ -100,12 +99,12 @@ export const updateUser = expressAsyncHandler(async (req: Request, res: Response
 	const updatedUser = await user.save();
 
 	res.json({ message: `${updatedUser.email} updated` });
-});
+}
 
 // @desc Delete a user
 // @route DELETE /users
 // @access Private
-export const deleteUser = expressAsyncHandler(async (req: Request, res: Response) => {
+export const deleteUser = async (req: Request, res: Response) => {
 	const { id } = req.body;
 
 	if (!id) {
@@ -125,4 +124,4 @@ export const deleteUser = expressAsyncHandler(async (req: Request, res: Response
 
 	const reply = `${result.deletedCount} user deleted with id ${id}`
 	res.json(reply)
-});
+}
