@@ -31,7 +31,9 @@ export const createNewUser = expressAsyncHandler(async (req: Request, res: Respo
 	}
 
 	// Check for duplicates
-	const duplicate = await User.findOne({ email }).lean().exec();
+	const duplicate = await User.findOne({ email })
+		.collation({ locale: 'en', strength: 2 })
+		.lean().exec();
 	if (duplicate) {
 		res.status(409).json({ message: "User email already registered" });
 		return;
@@ -76,7 +78,9 @@ export const updateUser = expressAsyncHandler(async (req: Request, res: Response
 	}
 
 	// Check for duplicates
-	const duplicate = await User.findOne({ email }).lean().exec();
+	const duplicate = await User.findOne({ email })
+		.collation({ locale: 'en', strength: 2 })
+		.lean().exec();
 
 	// Allow update for original user
 	if (duplicate && duplicate._id.toString() !== id) {
