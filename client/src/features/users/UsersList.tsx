@@ -15,13 +15,13 @@ const UsersList = () => {
 		refetchOnMountOrArgChange: true
 	});
 
-	let content = <></>;
+	if (isLoading) return (
+		<p>Loading...</p>
+	);
 
-	if (isLoading) content = <p>Loading...</p>;
-
-	if (isError) {
-		content = <p>{getQueryErrorMessage(isError, error)}</p>;
-	}
+	if (isError) return (
+		<p>{getQueryErrorMessage(isError, error)}</p>
+	);
 
 	if (isSuccess) {
 
@@ -31,7 +31,7 @@ const UsersList = () => {
 			? ids.map(userId => <UserItem key={userId} userId={userId} />)
 			: null;
 
-		content = (
+		return (
 			<table>
 				<thead>
 					<tr>
@@ -46,8 +46,6 @@ const UsersList = () => {
 			</table>
 		)
 	}
-
-	return content;
 }
 
 export default UsersList;

@@ -6,15 +6,9 @@ import { Outlet } from "react-router-dom";
 
 const Prefetch = () => {
 	useEffect(() => {
-		// subscribing:
-		const teams = store.dispatch(teamsApiSlice.endpoints.getTeams.initiate());
-		const users = store.dispatch(usersApiSlice.endpoints.getUsers.initiate());
-
-		// unsubscription on leaving protected routes
-		return () => {
-			teams.unsubscribe();
-			users.unsubscribe();
-		}
+		// subscribing => changed to prefetching
+		store.dispatch(teamsApiSlice.util.prefetch("getTeams", undefined, { force: true }));
+		store.dispatch(usersApiSlice.util.prefetch("getUsers", undefined, { force: true }));
 	}, []);
 
 	return <Outlet />;

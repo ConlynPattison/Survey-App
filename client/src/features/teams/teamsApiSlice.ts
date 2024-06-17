@@ -25,7 +25,12 @@ const initialState: EntityState<Team, string> = teamsAdapter.getInitialState();
 export const teamsApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getTeams: builder.query<EntityState<Team, string>, void>({
-			query: () => '/teams',
+			query: () => ({
+				url: '/teams',
+				validateStatus: (response, result) => {
+					return response.status === 200 && !result.isError
+				}
+			}),
 			transformResponse: (responseData: Team[]) => {
 				const loadedTeams = responseData.map((team) => {
 					team.id = team._id;

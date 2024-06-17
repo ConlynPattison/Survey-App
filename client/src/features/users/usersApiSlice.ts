@@ -26,7 +26,12 @@ const initialState: EntityState<User, string> = usersAdapter.getInitialState();
 export const usersApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getUsers: builder.query<EntityState<User, string>, void>({
-			query: () => '/users',
+			query: () => ({
+				url: '/users',
+				validateStatus: (response, result) => {
+					return response.status === 200 && !result.isError
+				}
+			}),
 			transformResponse: (responseData: User[]) => {
 				const loadedUsers = responseData.map((user) => {
 					user.id = user._id;

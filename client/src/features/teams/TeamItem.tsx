@@ -1,10 +1,13 @@
-import { useSelector } from "react-redux";
-import { Team, selectTeamById } from "./teamsApiSlice";
-import { RootState } from "../../app/store";
 import { useNavigate } from "react-router-dom";
+import { useGetTeamsQuery } from "./teamsApiSlice";
+import { memo } from "react";
 
 const TeamItem = ({ teamId }: { teamId: string }) => {
-	const team = useSelector<RootState, Team>(state => selectTeamById(state, teamId));
+	const { team } = useGetTeamsQuery(undefined, {
+		selectFromResult: ({ data }) => ({
+			team: data?.entities[teamId]
+		})
+	});
 
 	const navigate = useNavigate();
 
@@ -33,4 +36,5 @@ const TeamItem = ({ teamId }: { teamId: string }) => {
 	} else return null;
 }
 
-export default TeamItem;
+const memoizedTeamItem = memo(TeamItem);
+export default memoizedTeamItem;
