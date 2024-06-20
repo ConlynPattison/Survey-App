@@ -25,7 +25,7 @@ const App = () => {
 
 				{/* protected routes */}
 				<Route element={<PersistLogin />}>
-					<Route element={<RequireAuth allowedUsers={["Conlyn", "Carl"]} />}> {/* where props would be included to restrict */}
+					<Route element={<RequireAuth allowedUsers={["Conlyn", "Carl"]} />}> {/* todo: where props would be included to restrict */}
 						<Route element={<Prefetch />}> {/* Subsribe to data once while within dash/protected routes */}
 							<Route path="dash" element={<DashLayout />}>
 								<Route index element={<Welcome />} />
