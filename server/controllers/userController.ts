@@ -19,7 +19,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 	res.json(users);
 }
 
-export const createNewUserSchema = z.object({
+const createNewUserSchema = z.object({
 	body: z.object({
 		email: z.string().email(),
 		password: z.string().min(4).max(12).optional(),
@@ -40,7 +40,7 @@ export const createNewUser = async (req: Request, res: Response) => {
 
 	// Confirm data
 	if (!success) {
-		res.status(400).json({ message: error.toString() });
+		res.status(400).json({ message: error.issues });
 		return;
 	}
 
@@ -73,6 +73,16 @@ export const createNewUser = async (req: Request, res: Response) => {
 	}
 }
 
+const updateUserSchema = z.object({
+	body: z.object({
+		id: z.string(),
+		email: z.string().email(),
+		password: z.string().min(4).max(12).optional(),
+		firstName: z.string(),
+		lastName: z.string()
+	}).required()
+});
+
 /**
 * @desc Update a user
 * @route PATCH /users
@@ -81,14 +91,15 @@ export const createNewUser = async (req: Request, res: Response) => {
 * @param {Response} res - Express response object
 */
 export const updateUser = async (req: Request, res: Response) => {
-	const { id, email, password, firstName, lastName } = req.body;
+	const { success, data, error } = updateUserSchema.safeParse(req);
 
 	// Confirm data (password optional)
-	// todo: Convert this to entity-dto validation with Zod
-	if (!id || !email || !firstName || !lastName) {
-		res.status(400).json({ message: "All fields are required" });
+	if (!success) {
+		res.status(400).json({ message: error.issues });
 		return;
 	}
+
+	const { id, email, password, firstName, lastName } = data.body;
 
 	const user = await User.findById(id).exec();
 
@@ -121,6 +132,12 @@ export const updateUser = async (req: Request, res: Response) => {
 	res.json({ message: `${updatedUser.email} updated` });
 }
 
+const deleteUserSchema = z.object({
+	body: z.object({
+		id: z.string()
+	}).required()
+});
+
 /**
 * @desc Delete a user
 * @route DELETE /users
@@ -129,12 +146,14 @@ export const updateUser = async (req: Request, res: Response) => {
 * @param {Response} res - Express response object
 */
 export const deleteUser = async (req: Request, res: Response) => {
-	const { id } = req.body;
+	const { success, data, error } = deleteUserSchema.safeParse(req);
 
-	if (!id) {
-		res.status(400).json({ message: "User id required" });
+	if (!success) {
+		res.status(400).json({ message: error.issues });
 		return;
 	}
+
+	const { id } = data.body;
 
 	// todo: Add any checks that should be done before deleting a user (teams, roles, etc)
 	const user = await User.findById(id).exec();
