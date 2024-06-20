@@ -2,11 +2,13 @@ import User from "../models/User";
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 
-// todo: change the documentation method to follow JSDoc more closely
-
-// @desc Get all users
-// @route GET /users
-// @access Private
+/**
+ * @desc Get all users
+ * @route GET /users
+ * @access Private
+ * @param {Request} req - Express request object
+ * @param {Response} res - Express response object
+ */
 export const getAllUsers = async (req: Request, res: Response) => {
 	const users = await User.find().select("-password").lean();
 	if (users?.length === 0) {
@@ -16,9 +18,13 @@ export const getAllUsers = async (req: Request, res: Response) => {
 	res.json(users);
 }
 
-// @desc Create new user
-// @route POST /users
-// @access Private
+/**
+* @desc Create new user
+* @route POST /users
+* @access Private
+* @param {Request} req - Express request object
+* @param {Response} res - Express response object
+*/
 export const createNewUser = async (req: Request, res: Response) => {
 	const { email, password, firstName, lastName } = req.body;
 
@@ -56,9 +62,13 @@ export const createNewUser = async (req: Request, res: Response) => {
 	}
 }
 
-// @desc Update a user
-// @route PATCH /users
-// @access Private
+/**
+* @desc Update a user
+* @route PATCH /users
+* @access Private
+* @param {Request} req - Express request object
+* @param {Response} res - Express response object
+*/
 export const updateUser = async (req: Request, res: Response) => {
 	const { id, email, password, firstName, lastName } = req.body;
 
@@ -83,7 +93,6 @@ export const updateUser = async (req: Request, res: Response) => {
 
 	// Allow update for original user
 	if (duplicate && duplicate._id.toString() !== id) {
-		// todo: consider changing the wording here
 		res.status(409).json({ message: "Duplicate email recieved" });
 		return;
 	}
@@ -101,9 +110,13 @@ export const updateUser = async (req: Request, res: Response) => {
 	res.json({ message: `${updatedUser.email} updated` });
 }
 
-// @desc Delete a user
-// @route DELETE /users
-// @access Private
+/**
+* @desc Delete a user
+* @route DELETE /users
+* @access Private
+* @param {Request} req - Express request object
+* @param {Response} res - Express response object
+*/
 export const deleteUser = async (req: Request, res: Response) => {
 	const { id } = req.body;
 
