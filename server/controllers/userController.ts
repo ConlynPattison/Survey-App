@@ -1,6 +1,7 @@
 import User from "../models/User";
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
+import { z } from "zod";
 
 /**
  * @desc Get all users
@@ -18,6 +19,15 @@ export const getAllUsers = async (req: Request, res: Response) => {
 	res.json(users);
 }
 
+export const createNewUserSchema = z.object({
+	body: z.object({
+		email: z.string().email(),
+		password: z.string().min(4).max(12).optional(),
+		firstName: z.string(),
+		lastName: z.string()
+	}).required()
+});
+
 /**
 * @desc Create new user
 * @route POST /users
@@ -26,14 +36,15 @@ export const getAllUsers = async (req: Request, res: Response) => {
 * @param {Response} res - Express response object
 */
 export const createNewUser = async (req: Request, res: Response) => {
-	const { email, password, firstName, lastName } = req.body;
+	const { success, data, error } = createNewUserSchema.safeParse(req);
 
 	// Confirm data
-	// todo: Convert this to entity-dto validation with Zod
-	if (!email || !password || !firstName || !lastName) {
-		res.status(400).json({ message: "All fields are required" });
+	if (!success) {
+		res.status(400).json({ message: error.toString() });
 		return;
 	}
+
+	const { email, password, firstName, lastName } = data.body;
 
 	// Check for duplicates
 	const duplicate = await User.findOne({ email })

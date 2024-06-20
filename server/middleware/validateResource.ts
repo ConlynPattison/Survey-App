@@ -2,9 +2,10 @@ import { Request, Response, NextFunction } from "express";
 import { AnyZodObject } from "zod";
 
 /**
- * Middleware function for validation of CRUD operations leveraging Zod schema object parsing & errors
+ * Middleware function for validation of CRUD operations leveraging Zod schema object parsing & errors.
  * @param schema Zod Schema made up of body, query, and/or params arguments
  * @returns 
+ * @deprecated Not being used yet. Schema would be parsed twice where args need to be used, creates redundancy.
  */
 const validate = (schema: AnyZodObject) =>
 	(req: Request, res: Response, next: NextFunction) => {
