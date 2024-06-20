@@ -4,7 +4,7 @@ import { verifyJWT } from "../middleware/verifyJWT";
 
 const router = express.Router();
 
-// router.use(verifyJWT);
+router.use(verifyJWT);
 
 router.route("/")
 	.get(getAllUsers)
