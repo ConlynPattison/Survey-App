@@ -2,6 +2,15 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
+import { z } from "zod";
+
+const loginSchema = z.object({
+	body: z.object({
+		email: z.string().email(),
+		password: z.string()
+	})
+});
+
 
 /** 
  * @desc Login
@@ -11,26 +20,23 @@ import User from "../models/User";
  * @param {Response} res - Express response object
  */
 export const login = async (req: Request, res: Response) => {
-	// todo: zod
-	const { email, password } = req.body;
+	const { success, error, data } = loginSchema.safeParse(req);
 
-	if (!email || !password) {
-		res.status(400).json({ message: "All fields are required" });
-		return;
+	if (!success) {
+		return res.status(400).json({ message: error.issues });
 	}
+	const { email, password } = data.body;
 
 	const foundUser = await User.findOne({ email }).exec();
 
 	if (!foundUser) {
-		res.status(401).json({ message: "Unauthorized" });
-		return;
+		return res.status(401).json({ message: "Unauthorized" });
 	}
 
 	const match = await bcrypt.compare(password, foundUser.password);
 
 	if (!match) {
-		res.status(401).json({ message: "Unauthorized" });
-		return;
+		return res.status(401).json({ message: "Unauthorized" });
 	}
 
 	const accessToken = jwt.sign(
@@ -74,8 +80,7 @@ export const refresh = (req: Request, res: Response) => {
 	const cookies = req.cookies;
 
 	if (!cookies?.jwt) {
-		res.status(401).json({ message: "Unauthorized" });
-		return;
+		return res.status(401).json({ message: "Unauthorized" });
 	}
 
 	const refreshToken = cookies.jwt;
@@ -86,21 +91,18 @@ export const refresh = (req: Request, res: Response) => {
 		{}, // VerifyOptions, included to move past error
 		async (err, decoded) => { // VerifyCallback
 			if (err) {
-				res.status(403).json({ message: "Forbidden" });
-				return;
+				return res.status(403).json({ message: "Forbidden" });
 			}
 
 			// todo: zod, should check that there exists the proper records for a user's auth (occurs again in verifyJWT)
 			if (!decoded || typeof decoded === "string") {
-				res.status(401).json({ message: "Unauthorized" });
-				return;
+				return res.status(401).json({ message: "Unauthorized" });
 			}
 
 			const foundUser = await User.findOne({ email: decoded?.email }).exec();
 
 			if (!foundUser) {
-				res.status(401).json({ message: "Unauthorized" });
-				return;
+				return res.status(401).json({ message: "Unauthorized" });
 			}
 
 			const accessToken = jwt.sign(
@@ -129,8 +131,7 @@ export const logout = (req: Request, res: Response) => {
 	const cookies = req.cookies;
 
 	if (!cookies?.jwt) { // No jwt content found on cookie
-		res.sendStatus(204);
-		return;
+		return res.sendStatus(204);
 	}
 
 	res.clearCookie("jwt", { httpOnly: true, sameSite: "none", secure: true });

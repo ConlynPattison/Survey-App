@@ -13,8 +13,7 @@ import { z } from "zod";
 export const getAllUsers = async (req: Request, res: Response) => {
 	const users = await User.find().select("-password").lean();
 	if (users?.length === 0) {
-		res.status(400).json({ message: "No users found" });
-		return;
+		return res.status(400).json({ message: "No users found" });
 	}
 	res.json(users);
 }
@@ -40,8 +39,7 @@ export const createNewUser = async (req: Request, res: Response) => {
 
 	// Confirm data
 	if (!success) {
-		res.status(400).json({ message: error.issues });
-		return;
+		return res.status(400).json({ message: error.issues });
 	}
 
 	const { email, password, firstName, lastName } = data.body;
@@ -51,8 +49,7 @@ export const createNewUser = async (req: Request, res: Response) => {
 		.collation({ locale: 'en', strength: 2 })
 		.lean().exec();
 	if (duplicate) {
-		res.status(409).json({ message: "User email already registered" });
-		return;
+		return res.status(409).json({ message: "User email already registered" });
 	}
 
 	// Hash password
@@ -95,8 +92,7 @@ export const updateUser = async (req: Request, res: Response) => {
 
 	// Confirm data (password optional)
 	if (!success) {
-		res.status(400).json({ message: error.issues });
-		return;
+		return res.status(400).json({ message: error.issues });
 	}
 
 	const { id, email, password, firstName, lastName } = data.body;
@@ -104,8 +100,7 @@ export const updateUser = async (req: Request, res: Response) => {
 	const user = await User.findById(id).exec();
 
 	if (!user) {
-		res.status(400).json({ message: "User not found" });
-		return;
+		return res.status(400).json({ message: "User not found" });
 	}
 
 	// Check for duplicates
@@ -115,8 +110,7 @@ export const updateUser = async (req: Request, res: Response) => {
 
 	// Allow update for original user
 	if (duplicate && duplicate._id.toString() !== id) {
-		res.status(409).json({ message: "Duplicate email recieved" });
-		return;
+		return res.status(409).json({ message: "Duplicate email recieved" });
 	}
 
 	user.email = email;
@@ -149,8 +143,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 	const { success, data, error } = deleteUserSchema.safeParse(req);
 
 	if (!success) {
-		res.status(400).json({ message: error.issues });
-		return;
+		return res.status(400).json({ message: error.issues });
 	}
 
 	const { id } = data.body;
@@ -159,8 +152,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 	const user = await User.findById(id).exec();
 
 	if (!user) {
-		res.status(400).json({ message: `User id ${id} not found` });
-		return;
+		return res.status(400).json({ message: `User id ${id} not found` });
 	}
 
 	const result = await user.deleteOne();

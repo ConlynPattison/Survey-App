@@ -136,7 +136,7 @@ export const deleteTeam = async (req: Request, res: Response) => {
 	const { success, error, data } = deleteTeamSchema.safeParse(req);
 
 	if (!success) {
-		return res.status(400).json({ message: "Team id field required" });
+		return res.status(400).json({ message: error.issues });
 	}
 
 	const { id } = data.body;
