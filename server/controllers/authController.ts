@@ -11,7 +11,6 @@ const loginSchema = z.object({
 	})
 });
 
-
 /** 
  * @desc Login
  * @route POST /auth
